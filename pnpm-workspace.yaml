@@ -1,2 +1,8 @@
 allowBuilds:
   esbuild: true
+
+# tinyexec >= 1.2.2 trips the supply-chain trust check (trusted-publisher ->
+# provenance is flagged as a downgrade). Pin to the last trusted-publisher
+# release; it is a dev-only transitive dep of vitest.
+overrides:
+  tinyexec: 1.1.2

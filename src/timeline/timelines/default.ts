@@ -1,6 +1,6 @@
 import type { Timeline } from "../schema";
 
-// Structured form of timeline.md (the human-readable source of truth).
+// Default 10-minute full-body menu.
 // 3 rounds of: slow squat (6 reps x down/hold/up) -> hip hinge (15 reps)
 // -> march / knee-up -> rest, followed by breathing and a finish block.
 // Total: 180s x 3 + 30s + 30s = 600s (10:00).

@@ -1,9 +1,8 @@
 // Structured representation of a workout timeline.
 //
-// `timeline.md` is the human-readable source of truth; the same content is
-// expressed here as a block-based program so that additional timelines can be
-// added and selected at runtime. A program is expanded into a flat list of
-// Segments (see expand.ts) which the scheduler drives.
+// A timeline is authored as a block-based program so that additional timelines
+// can be added and selected at runtime. A program is expanded into a flat list
+// of Segments (see expand.ts) which the scheduler drives.
 
 /** Sound family. Each category maps to a distinct synthesized timbre. */
 export type Category =

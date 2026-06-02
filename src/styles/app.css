@@ -21,7 +21,7 @@ body {
 .app {
   max-width: 32rem;
   margin: 0 auto;
-  padding: var(--spacing-lg) var(--spacing-md)
+  padding: var(--spacing-lg) clamp(var(--spacing-sm), 4vw, var(--spacing-md))
     calc(var(--spacing-xl) + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
@@ -30,9 +30,10 @@ body {
 
 .app__header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
 .app__title {
@@ -44,6 +45,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
+  /* Grow to fill the row, and wrap to full width on narrow screens. */
+  flex: 1 1 12rem;
 }
 
 .field__label {
@@ -227,4 +230,49 @@ body {
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
   margin: 0;
+}
+
+/* Small phones: tighten spacing and let the menu take the full width. */
+@media (max-width: 26rem) {
+  .app {
+    gap: var(--spacing-md);
+  }
+
+  .now {
+    padding: var(--spacing-md);
+  }
+
+  .now__count {
+    margin: var(--spacing-xs) 0;
+  }
+
+  .field {
+    flex-basis: 100%;
+  }
+}
+
+/* Short / landscape viewports: compress vertical rhythm so controls stay visible. */
+@media (max-height: 34rem) and (orientation: landscape) {
+  .app {
+    max-width: 48rem;
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+  }
+
+  .now {
+    padding: var(--spacing-md);
+  }
+
+  .now__count {
+    font-size: clamp(2.5rem, 12vh, 4rem);
+    margin: var(--spacing-xs) 0;
+  }
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .segbar__fill,
+  .progress__fill {
+    transition: none;
+  }
 }

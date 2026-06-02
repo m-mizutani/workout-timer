@@ -50,7 +50,7 @@ let timeline: Timeline = timelines[0];
 let segments: Segment[] = expandTimeline(timeline);
 let total = totalDuration(segments);
 let player: Player = buildPlayer();
-let audioReady = false;
+let voicesLoaded = false;
 
 function buildPlayer(): Player {
   return new Player(segments, {
@@ -73,10 +73,14 @@ function loadTimeline(t: Timeline): void {
 }
 
 async function ensureAudio(): Promise<void> {
-  if (audioReady || !engine.available) return;
+  if (!engine.available) return;
+  // Resume on every start: mobile browsers suspend the context in the
+  // background, so a once-only guard would leave audio silent after resuming.
   await engine.resume();
-  await voice.load(import.meta.env.BASE_URL);
-  audioReady = true;
+  if (!voicesLoaded) {
+    await voice.load(import.meta.env.BASE_URL);
+    voicesLoaded = true;
+  }
 }
 
 async function onToggle(): Promise<void> {

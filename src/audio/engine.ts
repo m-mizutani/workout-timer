@@ -29,14 +29,24 @@ export class AudioEngine {
 
   /** Whether the Web Audio API is usable in this environment. */
   get available(): boolean {
-    return typeof window !== "undefined" && "AudioContext" in window;
+    return (
+      typeof window !== "undefined" &&
+      ("AudioContext" in window || "webkitAudioContext" in window)
+    );
   }
 
-  /** Lazily create and resume the context (must be called from a user gesture). */
+  /**
+   * Lazily create and resume the context. MUST be called from a user gesture
+   * (and again on later starts, since mobile browsers suspend the context when
+   * the page is backgrounded).
+   */
   async resume(): Promise<void> {
     if (!this.available) throw new Error("Web Audio API is not available");
     if (!this.ctx) {
-      this.ctx = new AudioContext();
+      const Ctor =
+        window.AudioContext ??
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.ctx = new Ctor();
       this.master = this.ctx.createGain();
       this.master.gain.value = this.volume;
       // Brick-wall-ish limiter so the loud boost does not clip harshly.
@@ -48,10 +58,24 @@ export class AudioEngine {
       this.limiter.release.value = 0.12;
       this.master.connect(this.limiter);
       this.limiter.connect(this.ctx.destination);
+      this.unlock();
     }
     if (this.ctx.state === "suspended") {
       await this.ctx.resume();
     }
+  }
+
+  /**
+   * iOS only starts audio after a sound is played inside a user gesture.
+   * Play a one-sample silent buffer to unlock playback.
+   */
+  private unlock(): void {
+    if (!this.ctx) return;
+    const buffer = this.ctx.createBuffer(1, 1, 22050);
+    const src = this.ctx.createBufferSource();
+    src.buffer = buffer;
+    src.connect(this.ctx.destination);
+    src.start(0);
   }
 
   now(): number {

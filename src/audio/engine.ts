@@ -2,6 +2,11 @@
 // synthesized here, so no audio files are needed for them (only the voice
 // guidance uses pre-generated WAVs, see voice.ts).
 
+// Synthesized tones are kept at modest per-call gains for clean mixing, then
+// boosted globally so the workout is clearly audible. A limiter on the master
+// bus catches the resulting peaks so the boost stays loud without harsh clipping.
+const TONE_BOOST = 2.8;
+
 export interface ToneOptions {
   /** Absolute AudioContext time to start the tone. */
   at: number;
@@ -19,7 +24,8 @@ export interface ToneOptions {
 export class AudioEngine {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
-  private volume = 0.8;
+  private limiter: DynamicsCompressorNode | null = null;
+  private volume = 1.0;
 
   /** Whether the Web Audio API is usable in this environment. */
   get available(): boolean {
@@ -33,7 +39,15 @@ export class AudioEngine {
       this.ctx = new AudioContext();
       this.master = this.ctx.createGain();
       this.master.gain.value = this.volume;
-      this.master.connect(this.ctx.destination);
+      // Brick-wall-ish limiter so the loud boost does not clip harshly.
+      this.limiter = this.ctx.createDynamicsCompressor();
+      this.limiter.threshold.value = -3;
+      this.limiter.knee.value = 0;
+      this.limiter.ratio.value = 20;
+      this.limiter.attack.value = 0.002;
+      this.limiter.release.value = 0.12;
+      this.master.connect(this.limiter);
+      this.limiter.connect(this.ctx.destination);
     }
     if (this.ctx.state === "suspended") {
       await this.ctx.resume();
@@ -62,6 +76,7 @@ export class AudioEngine {
   tone(opts: ToneOptions): void {
     if (!this.ctx || !this.master) return;
     const { at, freq, freqEnd, dur, type = "sine", gain = 0.3 } = opts;
+    const peak = gain * TONE_BOOST;
     const start = Math.max(at, this.ctx.currentTime);
     const osc = this.ctx.createOscillator();
     const env = this.ctx.createGain();
@@ -73,7 +88,7 @@ export class AudioEngine {
     // Short attack then exponential decay to avoid clicks.
     const attack = Math.min(0.01, dur * 0.2);
     env.gain.setValueAtTime(0.0001, start);
-    env.gain.exponentialRampToValueAtTime(gain, start + attack);
+    env.gain.exponentialRampToValueAtTime(peak, start + attack);
     env.gain.exponentialRampToValueAtTime(0.0001, start + dur);
     osc.connect(env);
     env.connect(this.master);

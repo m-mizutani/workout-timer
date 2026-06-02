@@ -1,0 +1,26 @@
+{
+  "squat-start": {
+    "file": "squat-start.wav",
+    "text": "スロースクワット、はじめます"
+  },
+  "to-hiphinge": {
+    "file": "to-hiphinge.wav",
+    "text": "姿勢を整えて、つぎはヒップヒンジ"
+  },
+  "to-march": {
+    "file": "to-march.wav",
+    "text": "ニーアップの準備。その場足踏み"
+  },
+  "rest": {
+    "file": "rest.wav",
+    "text": "休憩します"
+  },
+  "breathing": {
+    "file": "breathing.wav",
+    "text": "呼吸を整えましょう"
+  },
+  "finish": {
+    "file": "finish.wav",
+    "text": "おつかれさまでした。水分を補給しましょう"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules
+dist
+*.local
+.DS_Store
+.spec
+tmp
+# Intermediate audio artifacts from voice generation (final WAVs are committed)
+scripts/.voice-tmp

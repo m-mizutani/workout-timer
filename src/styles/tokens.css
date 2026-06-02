@@ -1,0 +1,43 @@
+:root {
+  /* Color palette */
+  --color-bg: #0f1320;
+  --color-surface: #1a2032;
+  --color-surface-2: #232b41;
+  --color-text: #eef1f8;
+  --color-text-muted: #9aa4bf;
+  --color-border: #2e3650;
+  --color-primary: #4f7cff;
+  --color-primary-text: #ffffff;
+  --color-track: #2a3147;
+
+  /* Category accent colors (sound family -> color) */
+  --color-squat: #5ad1a0;
+  --color-hiphinge: #f2b35e;
+  --color-march: #6db1ff;
+  --color-transition: #b48bff;
+  --color-rest: #7e8aa6;
+  --color-breathing: #8ad0e0;
+  --color-finish: #ff7a9c;
+
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-md-lg: 1.25rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP",
+    "Segoe UI", sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.5rem;
+  --font-size-count: 5rem;
+}

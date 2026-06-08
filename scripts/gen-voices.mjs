@@ -24,6 +24,7 @@ const CUES = {
   "squat-start": "スロースクワット、はじめます",
   "to-hiphinge": "姿勢を整えて、つぎはヒップヒンジ",
   "to-march": "ニーアップの準備。その場足踏み",
+  "march-left": "左足にチェンジ",
   rest: "休憩します",
   breathing: "呼吸を整えましょう",
   finish: "おつかれさまでした。水分を補給しましょう",

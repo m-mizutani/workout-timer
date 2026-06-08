@@ -5,8 +5,8 @@ import { defaultTimeline } from "./default";
 describe("defaultTimeline", () => {
   const segments = expandTimeline(defaultTimeline);
 
-  it("lasts exactly 600 seconds (10:00)", () => {
-    expect(totalDuration(segments)).toBe(600);
+  it("lasts exactly 645 seconds (10:45)", () => {
+    expect(totalDuration(segments)).toBe(645);
   });
 
   it("has contiguous, gap-free segments", () => {
@@ -35,19 +35,23 @@ describe("defaultTimeline", () => {
 
   it("places voice cues at every transition, rest, breathing and finish", () => {
     const cues = segments.filter((s) => s.voiceCue).map((s) => s.voiceCue);
-    // 3 rounds x (squat-start, to-hiphinge, to-march, rest) + breathing + finish.
+    // 3 rounds x (squat-start, to-hiphinge, to-march, march-left, rest)
+    // + breathing + finish.
     expect(cues).toEqual([
       "squat-start",
       "to-hiphinge",
       "to-march",
+      "march-left",
       "rest",
       "squat-start",
       "to-hiphinge",
       "to-march",
+      "march-left",
       "rest",
       "squat-start",
       "to-hiphinge",
       "to-march",
+      "march-left",
       "rest",
       "breathing",
       "finish",

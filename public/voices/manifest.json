@@ -11,6 +11,10 @@
     "file": "to-march.wav",
     "text": "ニーアップの準備。その場足踏み"
   },
+  "march-left": {
+    "file": "march-left.wav",
+    "text": "左足にチェンジ"
+  },
   "rest": {
     "file": "rest.wav",
     "text": "休憩します"

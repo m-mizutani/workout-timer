@@ -1,9 +1,10 @@
 import type { Timeline } from "../schema";
 
-// Default 10-minute full-body menu.
+// Default full-body menu.
 // 3 rounds of: slow squat (6 reps x down/hold/up) -> hip hinge (15 reps)
-// -> march / knee-up -> rest, followed by breathing and a finish block.
-// Total: 180s x 3 + 30s + 30s = 600s (10:00).
+// -> march / knee-up (right leg then left leg) -> rest, followed by breathing
+// and a finish block.
+// Total: 195s x 3 + 30s + 30s = 645s (10:45).
 export const defaultTimeline: Timeline = {
   id: "full-body-10min",
   name: "全身ワークアウト 10分",
@@ -48,9 +49,16 @@ export const defaultTimeline: Timeline = {
         },
         {
           type: "timed",
-          dur: 45,
-          label: "その場足踏み／ニーアップ",
+          dur: 30,
+          label: "その場足踏み／ニーアップ（右足）",
           category: "march",
+        },
+        {
+          type: "timed",
+          dur: 30,
+          label: "その場足踏み／ニーアップ（左足）",
+          category: "march",
+          voiceIn: "march-left",
         },
         {
           type: "timed",
